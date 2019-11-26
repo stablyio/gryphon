@@ -101,7 +101,7 @@ class Order(Base, BasicOrder):
                 trade['trade_id'],
                 self)
 
-            new_trade.time_created = epoch(trade['time']).datetime
+            new_trade.time_created = epoch(trade['time']).datetime.replace(tzinfo=None)
 
     # returns position change
     def was_eaten(self, order_details):

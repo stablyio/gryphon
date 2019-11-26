@@ -60,7 +60,7 @@ class Money(super_money.Money):
         return "{} {}".format(self.currency, amount)
 
     def __unicode__(self):
-        if self.currency == 'BTC':
+        if self.currency in self.CRYPTO_CURRENCIES:
             return u"{} {:,.8f}".format(self.currency, self.amount)
         else:
             return u"{} {:,.2f}".format(self.currency, self.amount)

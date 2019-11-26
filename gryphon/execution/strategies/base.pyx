@@ -34,7 +34,7 @@ class Strategy(ConfigurableObject):
 
         # Configurable properties with defaults only below this line.
 
-        self.volume_currency = 'BTC'
+        self.volume_currency = 'Must set volume_currency explicity in implementing strategy'
 
         # How long the strategy pauses between ticks.
         self.tick_sleep = 5
