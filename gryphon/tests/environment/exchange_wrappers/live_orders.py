@@ -24,6 +24,7 @@ class LiveOrdersTest(object):
     def __init__(self):
         self.order1_price_amount = '0.01'
         self.order2_price_amount = '0.02'
+        self.order_volume = '1'
         self.sleep_time = 1
 
     def tearDown(self):
@@ -41,7 +42,7 @@ class LiveOrdersTest(object):
         get_multi_order_details, cancel_order, and cancel_all_open_orders.
         """
 
-        order_volume = Money('1', self.exchange.volume_currency)
+        order_volume = Money(self.order_volume, self.exchange.volume_currency)
         order1_price = Money(self.order1_price_amount, self.exchange.currency)
         order2_price = Money(self.order2_price_amount, self.exchange.currency)
 
@@ -65,9 +66,9 @@ class LiveOrdersTest(object):
         open_orders = self.exchange.get_open_orders()
 
         assert len(open_orders) == 1
-        assert open_orders[0]['id'] == order1_id
+        assert str(open_orders[0]['id']) == str(order1_id)
         assert open_orders[0]['price'] == order1_price
-        assert open_orders[0]['volume_remaining'] == order_volume
+        assert open_orders[0]['volume_remaining'].amount == order_volume.amount
       
         time.sleep(self.sleep_time)
 
@@ -75,9 +76,9 @@ class LiveOrdersTest(object):
 
         order_details = self.exchange.get_order_details(order1_id)
         # Due to implementation sometimes get_order_details doesn't have the mode on it.
-        assert order_details['type'] in [Consts.BID, None]
-        assert order_details['fiat_total'] == Money('0', self.exchange.currency)
-        assert len(order_details['trades']) == 0
+        assert order_details['mode'] in [Consts.BID, None]
+        assert order_details[self.exchange.currency.lower() + '_total'] == Money('0', self.exchange.currency)
+        # assert len(order_details['trades']) == 0 # Not every exchange breaks orders into trades
 
         time.sleep(self.sleep_time)
 
@@ -100,7 +101,7 @@ class LiveOrdersTest(object):
         open_orders = self.exchange.get_open_orders()
 
         assert len(open_orders) == 2
-        assert open_orders[0]['id'] in [order1_id, order2_id]
+        assert str(open_orders[0]['id']) in [str(order1_id), str(order2_id)]
 
         time.sleep(self.sleep_time)
 
@@ -109,10 +110,10 @@ class LiveOrdersTest(object):
         multi_details = self.exchange.get_multi_order_details([order1_id, order2_id])
 
         assert len(multi_details) == 2
-        assert order1_id in multi_details.keys() and order2_id in multi_details.keys()
-        assert 'trades' in multi_details[order2_id]
+        assert str(order1_id) in multi_details.keys() and str(order2_id) in multi_details.keys()
+        # assert 'trades' in multi_details[order2_id]
         assert 'type' in multi_details[order2_id]
-        assert 'fiat_total' in multi_details[order2_id]
+        assert self.exchange.currency.lower() + '_total' in multi_details[order2_id]
 
         time.sleep(self.sleep_time)
 

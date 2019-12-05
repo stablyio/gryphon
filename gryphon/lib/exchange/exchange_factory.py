@@ -12,19 +12,28 @@ ALL_EXCHANGE_KEYS = [
     'bitstamp_bch_btc',
     'bitstamp_bch_eur',
     'bitstamp_bch_usd',
+
     'bitfinex_btc_usd',
+
     'kraken_btc_eur',
     'kraken_btc_usd',
     'kraken_btc_cad',
+
     'itbit_btc_usd',
+
     'okcoin_btc_usd',
+
     'coinbase_btc_usd',
+
     'quadriga_btc_cad',
+
     'gemini_btc_usd',
     'gemini_eth_btc',
     'gemini_eth_usd',
     'gemini_ltc_usd',
     'gemini_zec_usd',
+
+    'binance_btc_usdt',
 ]
 
 HISTORICAL_EXCHANGE_KEYS = [
@@ -177,6 +186,7 @@ def get_api_wrapper_class_by_name(exchange_name):
     elif exchange_name == 'BITSTAMP_BCH_EUR':
         from gryphon.lib.exchange.bitstamp_bch_eur import BitstampBCHEURExchange
         return BitstampBCHEURExchange
+    
     elif exchange_name == 'KRAKEN_BTC_EUR':
         from gryphon.lib.exchange.kraken_btc_eur import KrakenBTCEURExchange
         return KrakenBTCEURExchange
@@ -186,21 +196,27 @@ def get_api_wrapper_class_by_name(exchange_name):
     elif exchange_name == 'KRAKEN_BTC_CAD':
         from gryphon.lib.exchange.kraken_btc_cad import KrakenBTCCADExchange
         return KrakenBTCCADExchange
+
     elif exchange_name == 'BITFINEX_BTC_USD':
         from gryphon.lib.exchange.bitfinex_btc_usd import BitfinexBTCUSDExchange
         return BitfinexBTCUSDExchange
+
     elif exchange_name == 'ITBIT_BTC_USD':
         from gryphon.lib.exchange.itbit_btc_usd import ItbitBTCUSDExchange
         return ItbitBTCUSDExchange
+
     elif exchange_name == 'OKCOIN_BTC_USD':
         from gryphon.lib.exchange.okcoin_btc_usd import OKCoinBTCUSDExchange
         return OKCoinBTCUSDExchange
+
     elif exchange_name == 'QUADRIGA_BTC_CAD':
         from gryphon.lib.exchange.quadriga_btc_cad import QuadrigaBTCCADExchange
         return QuadrigaBTCCADExchange
+
     elif exchange_name == 'COINBASE_BTC_USD':
         from gryphon.lib.exchange.coinbase_btc_usd import CoinbaseBTCUSDExchange
         return CoinbaseBTCUSDExchange
+
     elif exchange_name == 'GEMINI_BTC_USD':
         from gryphon.lib.exchange.gemini_btc_usd import GeminiBTCUSDExchange
         return GeminiBTCUSDExchange
@@ -216,9 +232,14 @@ def get_api_wrapper_class_by_name(exchange_name):
     elif exchange_name == 'GEMINI_ZEC_USD':
         from gryphon.lib.exchange.gemini_zec_usd import GeminiZECUSDExchange
         return GeminiZECUSDExchange
+
     elif exchange_name == 'POLONIEX_ETH_BTC':
         from gryphon.lib.exchange.poloniex_eth_btc import PoloniexETHBTCExchange
         return PoloniexETHBTCExchange
+
+    elif exchange_name == 'BINANCE_BTC_USDT':
+        from gryphon.lib.exchange.binance import BinanceBTCUSDTExchange
+        return BinanceBTCUSDTExchange 
     else:
         raise exceptions.ExchangeNotIntegratedError(exchange_name)
 
